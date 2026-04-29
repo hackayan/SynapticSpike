@@ -10,13 +10,13 @@
 #SBATCH --output=logs/01_extract_%a_%j.log
 
 # =============================================================================
-# 01_extract_eeg_array.sh
+# slurm/01_extract_eeg_array.sh
 # =============================================================================
 # SLURM array job: extracts EEG from one .set file per array task.
-# Submit after prep_hgf_output.py has been run.
+# Submit after python/01_prep_hgf_output.py has been run.
 #
 # Usage:
-#   sbatch --array=0-33 01_extract_eeg_array.sh
+#   sbatch --array=0-33 slurm/01_extract_eeg_array.sh
 # =============================================================================
 
 set -euo pipefail
