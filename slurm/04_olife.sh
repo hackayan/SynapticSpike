@@ -9,11 +9,11 @@
 #SBATCH --output=logs/04_olife_%j.log
 
 # =============================================================================
-# 04_olife.sh
+# slurm/04_olife.sh
 # =============================================================================
 # Runs the O-LIFE correlation analysis.
-# Submit after 03_submit_analysis.sh completes.
+# Submit after slurm/03_submit_analysis.sh completes.
 # =============================================================================
 
 export WORK_DIR="${WORK_DIR:-$HOME/rmmn}"
-Rscript "${WORK_DIR}/scripts/04_olife_correlation.R"
+Rscript "${WORK_DIR}/R/04_olife_correlation.R"

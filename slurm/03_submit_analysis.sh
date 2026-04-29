@@ -10,15 +10,15 @@
 #SBATCH --output=logs/03_analysis_%a_%j.log
 
 # =============================================================================
-# 03_submit_analysis.sh
+# slurm/03_submit_analysis.sh
 # =============================================================================
 # Runs 03_lm_vs_lmer_analysis.R for Fz, Cz, Pz as a SLURM array.
-# Submit after 02_concat_subjects.sh completes.
+# Submit after slurm/02_concat_subjects.sh completes.
 #
 # Usage:
 #   export WORK_DIR=$HOME/rmmn
 #   export N_PERM=500
-#   sbatch 03_submit_analysis.sh
+#   sbatch slurm/03_submit_analysis.sh
 # =============================================================================
 
 CHANNELS=(Fz Cz Pz)
@@ -27,4 +27,4 @@ export WORK_DIR="${WORK_DIR:-$HOME/rmmn}"
 export N_PERM="${N_PERM:-500}"
 
 echo "Channel: $EEG_CHANNEL | N_PERM: $N_PERM"
-Rscript "${WORK_DIR}/scripts/03_lm_vs_lmer_analysis.R"
+Rscript "${WORK_DIR}/R/03_lm_vs_lmer_analysis.R"

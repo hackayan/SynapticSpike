@@ -162,10 +162,20 @@ cat("      LMER eps3...\n"); res_lmer_eps3 <- run_lmer_timewise(df, lmer_f, "eps
 # ── Cluster permutation test ──────────────────────────────────────────────────
 cat("[5/5] Permutations eps2 (n=", N_PERM, ")...\n")
 set.seed(42)
+
+# Permute at the trial level instead of randomly across all rows
 max_null_eps2 <- numeric(N_PERM)
 for (i in seq_len(N_PERM)) {
   if (i %% 100 == 0) cat("  perm", i, "/", N_PERM, "\n")
-  df_p <- df; df_p$eps2_z <- sample(df_p$eps2_z)
+
+  # Create a mapping of trial -> shuffled eps2_z
+  trial_eps2 <- df %>% select(Trial, eps2_z) %>% distinct()
+  trial_eps2$eps2_z_shuffled <- sample(trial_eps2$eps2_z)
+
+  df_p <- df %>% left_join(trial_eps2 %>% select(Trial, eps2_z_shuffled), by="Trial") %>%
+    mutate(eps2_z = eps2_z_shuffled) %>%
+    select(-eps2_z_shuffled)
+
   res_p <- run_lm_timewise(df_p, lm_f, "eps2_z")
   cl    <- get_clusters(res_p)
   max_null_eps2[i] <- if (!is.null(cl)) max(cl$cluster_stat) else 0
@@ -175,7 +185,15 @@ cat("      Permutations eps3...\n")
 max_null_eps3 <- numeric(N_PERM)
 for (i in seq_len(N_PERM)) {
   if (i %% 100 == 0) cat("  perm", i, "/", N_PERM, "\n")
-  df_p <- df; df_p$eps3_orth_z <- sample(df_p$eps3_orth_z)
+
+  # Create a mapping of trial -> shuffled eps3_orth_z
+  trial_eps3 <- df %>% select(Trial, eps3_orth_z) %>% distinct()
+  trial_eps3$eps3_orth_z_shuffled <- sample(trial_eps3$eps3_orth_z)
+
+  df_p <- df %>% left_join(trial_eps3 %>% select(Trial, eps3_orth_z_shuffled), by="Trial") %>%
+    mutate(eps3_orth_z = eps3_orth_z_shuffled) %>%
+    select(-eps3_orth_z_shuffled)
+
   res_p <- run_lm_timewise(df_p, lm_f, "eps3_orth_z")
   cl    <- get_clusters(res_p)
   max_null_eps3[i] <- if (!is.null(cl)) max(cl$cluster_stat) else 0

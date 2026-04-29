@@ -9,10 +9,10 @@
 #SBATCH --output=logs/02_concat_%j.log
 
 # =============================================================================
-# 02_concat_subjects.sh
+# slurm/02_concat_subjects.sh
 # =============================================================================
 # Concatenates all per_subject/merged_S*.csv files into one.
-# Submit after 01_extract_eeg_array.sh completes.
+# Submit after slurm/01_extract_eeg_array.sh completes.
 # =============================================================================
 
 WORK_DIR="${WORK_DIR:-$HOME/rmmn}"
